@@ -64,7 +64,15 @@ js/ui.js                everything that appears on the screen
 js/main.js              the wiring that joins the other three together
 tests/engine.test.html  a page that checks the rules are being followed
 NOTES.md                questions the rules did not answer, and what was assumed
+
+verbal version/         the tabletop game this was built from
+build-history/          the rules specification and the brief for this build
 ```
+
+The last two folders are the paperwork rather than the game. `verbal version/`
+holds the original documents for the game as it is played out loud with three
+coins, and `build-history/` holds the specification every number in the code
+came from.
 
 They are arranged in layers, and each layer only knows about the ones below it:
 

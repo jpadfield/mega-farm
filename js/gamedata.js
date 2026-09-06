@@ -7,7 +7,8 @@
  * an event happens or how far you have to go to win, this is the only file you
  * need to open. Nothing in engine.js or ui.js should contain a game number.
  *
- * The numbers here come from "mega-farm-rules-data-v4.md", which is the
+ * The numbers here come from "build-history/mega-farm-rules-data-v4.md",
+ * which is the
  * authoritative specification. Please keep the two in step.
  *
  * This file contains DATA only. It has no game logic in it at all. The logic

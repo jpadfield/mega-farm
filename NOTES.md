@@ -1,6 +1,7 @@
 # Notes on the rules
 
-Questions that `mega-farm-rules-data-v4.md` did not settle, and what this build
+Questions that `build-history/mega-farm-rules-data-v4.md` did not settle, and
+what this build
 assumed. Every one of them is a decision that could reasonably have gone the
 other way, so they are collected here for you to rule on. Where an assumption is
 easy to reverse, the note says where.
