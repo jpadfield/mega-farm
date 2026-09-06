@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="The Mega-Farm Challenge, a two-player co-operative farming game for a grown-up and a young farmer.">
+  <title>The Mega-Farm Challenge</title>
+
+  <!-- Bootstrap 5.3 from a CDN. This is the only thing this page loads from
+       the internet, and the only dependency the game has. -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/app.css" rel="stylesheet">
+</head>
+<body class="bg-body-tertiary">
+
+<!--
+  This page is a skeleton. Almost everything inside it is filled in by js/ui.js
+  from the current game state. If you are looking for the words on a button or
+  the numbers in a table, they come from js/gamedata.js, not from here.
+-->
+
+<!-- ======================================================================
+     The bar along the top. Hidden until a game is running.
+     ====================================================================== -->
+<nav id="top-bar" class="navbar bg-success-subtle border-bottom sticky-top d-none">
+  <div class="container-fluid gap-2 flex-nowrap">
+    <span class="navbar-brand mb-0 h1 fs-6 text-truncate">The Mega-Farm Challenge</span>
+    <div class="d-flex gap-1 flex-shrink-0">
+      <button id="open-history-button" type="button" class="btn btn-sm btn-outline-dark"
+              data-bs-toggle="offcanvas" data-bs-target="#history-panel">History</button>
+      <button id="open-rules-button" type="button" class="btn btn-sm btn-outline-dark"
+              data-bs-toggle="modal" data-bs-target="#rules-modal">Rules</button>
+      <button id="open-transfer-button" type="button" class="btn btn-sm btn-outline-dark"
+              data-bs-toggle="modal" data-bs-target="#transfer-modal">Save</button>
+    </div>
+  </div>
+</nav>
+
+<main class="container-fluid px-2 px-md-3 py-3" style="max-width: 60rem;">
+
+  <!-- ====================================================================
+       Setup screen
+       ==================================================================== -->
+  <section id="setup-screen"></section>
+
+  <!-- ====================================================================
+       Main play screen. Panels are filled in by ui.js.
+       ==================================================================== -->
+  <section id="play-screen" class="d-none">
+
+    <div id="header-panel" class="mb-3"></div>
+    <div id="ledger-panel" class="mb-3"></div>
+    <div id="event-panel" class="mb-3"></div>
+
+    <!-- One column on a phone, two from the md breakpoint upwards. -->
+    <div class="row g-3">
+      <div class="col-12 col-md-6">
+        <div id="planter-panel"></div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div id="builder-panel"></div>
+      </div>
+    </div>
+
+    <div id="end-of-turn-panel" class="mt-3"></div>
+
+  </section>
+
+  <!-- ====================================================================
+       Milestone walkthrough. Takes over the whole screen.
+       ==================================================================== -->
+  <section id="milestone-screen" class="d-none"></section>
+
+  <!-- ====================================================================
+       Win screen
+       ==================================================================== -->
+  <section id="win-screen" class="d-none"></section>
+
+</main>
+
+<!-- ======================================================================
+     The history table, in a slide-out panel so it does not clutter a phone.
+     ====================================================================== -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="history-panel" aria-labelledby="history-panel-title">
+  <div class="offcanvas-header">
+    <h2 class="offcanvas-title h5" id="history-panel-title">The farm, turn by turn</h2>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body" id="history-body"></div>
+</div>
+
+<!-- ======================================================================
+     The rules reference for the stage you are in.
+     ====================================================================== -->
+<div class="modal fade" id="rules-modal" tabindex="-1" aria-labelledby="rules-modal-title" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title h5" id="rules-modal-title">This stage at a glance</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="rules-body"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back to the farm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================================
+     Choosing how many to sell, for Sell to the Bakery and Bulk Export.
+     ====================================================================== -->
+<div class="modal fade" id="quantity-modal" tabindex="-1" aria-labelledby="quantity-modal-title" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title h5" id="quantity-modal-title">How many?</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p id="quantity-explanation" class="mb-3"></p>
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <button id="quantity-down-button" type="button" class="btn btn-lg btn-outline-secondary" aria-label="One fewer">&minus;</button>
+          <input id="quantity-input" type="number" class="form-control form-control-lg text-center fs-2" min="1" step="1" value="1" inputmode="numeric">
+          <button id="quantity-up-button" type="button" class="btn btn-lg btn-outline-secondary" aria-label="One more">+</button>
+        </div>
+        <button id="quantity-all-button" type="button" class="btn btn-outline-secondary w-100 mb-3">Sell them all</button>
+        <p id="quantity-total" class="fs-5 mb-0 text-center"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button id="quantity-confirm-button" type="button" class="btn btn-primary btn-lg">Sell</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================================
+     A warning the players may always press past. Used for the Crate warning
+     before crossing 100 Plots.
+     ====================================================================== -->
+<div class="modal fade" id="warning-modal" tabindex="-1" aria-labelledby="warning-modal-title" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title h5" id="warning-modal-title">Are you sure?</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p id="warning-text" class="mb-0"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-lg" data-bs-dismiss="modal">No, wait</button>
+        <button id="warning-continue-button" type="button" class="btn btn-warning btn-lg">Yes, go ahead</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================================
+     Export and import, for moving a game between devices.
+     ====================================================================== -->
+<div class="modal fade" id="transfer-modal" tabindex="-1" aria-labelledby="transfer-modal-title" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title h5" id="transfer-modal-title">Saving and moving the game</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          The game saves itself on this device after every turn, so you can close
+          the page and come back. To carry the same farm to a different phone or
+          computer, copy the text below and paste it in there.
+        </p>
+        <label for="transfer-text" class="form-label">The whole game, as text</label>
+        <textarea id="transfer-text" class="form-control font-monospace" rows="10" spellcheck="false"></textarea>
+        <div id="transfer-message" class="mt-2"></div>
+        <div class="d-flex flex-wrap gap-2 mt-3">
+          <button id="transfer-copy-button" type="button" class="btn btn-outline-secondary">Copy to the clipboard</button>
+          <button id="transfer-import-button" type="button" class="btn btn-primary">Load the game in the box</button>
+        </div>
+        <hr>
+        <button id="start-again-button" type="button" class="btn btn-outline-danger">Abandon this farm and start again</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================================
+     Little messages that appear and go away again.
+     ====================================================================== -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3" id="toast-container"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script type="module" src="js/main.js"></script>
+
+</body>
+</html>
