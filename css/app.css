@@ -1,0 +1,197 @@
+/*
+ * app.css
+ * ---------------------------------------------------------------------------
+ * The only stylesheet the game has, and it is deliberately short.
+ *
+ * Bootstrap 5.3 does nearly all of the work: the grid, the cards, the buttons,
+ * the badges, the modals, the offcanvas panel, the progress bars and the
+ * toasts. Everything here is either something Bootstrap has no class for, or a
+ * small adjustment to make the game readable on a phone held in portrait.
+ *
+ * Please keep this file small. If you find yourself writing a lot of CSS, look
+ * for a Bootstrap class that already does it.
+ * ---------------------------------------------------------------------------
+ */
+
+/* --------------------------------------------------------------------------
+   Colours used by the game itself, on top of Bootstrap's own.
+   -------------------------------------------------------------------------- */
+:root {
+  --farm-planter-tint: #e7f1ff;
+  --farm-builder-tint: #fdf0e3;
+  --farm-planter-edge: #6ea8fe;
+  --farm-builder-edge: #e8a33d;
+}
+
+/* --------------------------------------------------------------------------
+   The ledger: the row of big numbers.
+   -------------------------------------------------------------------------- */
+
+/* Five of these have to fit across a 360 pixel phone in Stages 2 and 4, so
+   they share the width evenly and wrap onto a second line if they cannot. */
+.ledger-tile {
+  text-align: center;
+  padding: 0.4rem 0.2rem;
+  flex: 1 1 auto;
+  min-width: 3.4rem;
+}
+
+.ledger-number {
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.ledger-name {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* The little "+6" or "-4" that appears when a total changes, then fades. */
+.ledger-change {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  min-height: 1.1rem;
+  animation: fade-the-change-away 3s ease-out forwards;
+}
+
+@keyframes fade-the-change-away {
+  0%   { opacity: 1; }
+  70%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Somewhere to keep the line's height when nothing has changed. */
+.ledger-change-blank {
+  display: block;
+  min-height: 1.1rem;
+}
+
+/* --------------------------------------------------------------------------
+   The two role panels.
+   -------------------------------------------------------------------------- */
+
+.role-panel-planter { border-left: 0.4rem solid var(--farm-planter-edge); }
+.role-panel-builder { border-left: 0.4rem solid var(--farm-builder-edge); }
+
+.role-panel-planter > .card-header { background-color: var(--farm-planter-tint); }
+.role-panel-builder > .card-header { background-color: var(--farm-builder-tint); }
+
+/* The panel for the role whose turn it is not yet. Dimmed, but still readable,
+   because seeing what the other role could do is part of the game. */
+.role-panel-waiting {
+  opacity: 0.55;
+}
+
+/* --------------------------------------------------------------------------
+   Action buttons. Full width, two lines, big enough for a child to tap.
+   -------------------------------------------------------------------------- */
+
+.action-button {
+  text-align: left;
+  white-space: normal;
+}
+
+.action-button .action-name {
+  font-weight: 600;
+}
+
+.action-button .action-exchange {
+  font-variant-numeric: tabular-nums;
+}
+
+/* The "small change" actions the rules keep as insurance rather than options,
+   separated off at the bottom of the list. */
+.small-change-heading {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* --------------------------------------------------------------------------
+   The chance check: three coins or two dice.
+   -------------------------------------------------------------------------- */
+
+.chance-face {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 50%;
+  border: 3px solid var(--bs-secondary-border-subtle);
+  background: var(--bs-body-bg);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* A die is a square with rounded corners rather than a circle. */
+.chance-face-die {
+  border-radius: 0.6rem;
+}
+
+.chance-face-heads {
+  border-color: var(--bs-success);
+  color: var(--bs-success-text-emphasis);
+  background: var(--bs-success-bg-subtle);
+}
+
+.chance-face-tails {
+  border-color: var(--bs-secondary);
+  color: var(--bs-secondary-color);
+}
+
+.chance-place-value {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 400;
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------
+   The end-of-turn chant. Said out loud, so it should look like speech.
+   -------------------------------------------------------------------------- */
+
+.ledger-chant {
+  font-size: 1.25rem;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------------------------------
+   The milestone walkthrough.
+   -------------------------------------------------------------------------- */
+
+.milestone-step-outcome {
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   The history table. It can be wider than a phone, so it scrolls sideways
+   inside its own box rather than making the whole page scroll.
+   -------------------------------------------------------------------------- */
+
+.history-scroller {
+  overflow-x: auto;
+}
+
+.history-scroller table {
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------------------
+   Small screens. Anything narrower than a typical phone in portrait.
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 400px) {
+  .ledger-number { font-size: 1.5rem; }
+  .ledger-name { font-size: 0.68rem; letter-spacing: 0; }
+  .ledger-tile { padding: 0.4rem 0.1rem; min-width: 3rem; }
+  .chance-face { width: 2.75rem; height: 2.75rem; font-size: 1.25rem; }
+  .ledger-chant { font-size: 1.1rem; }
+}
